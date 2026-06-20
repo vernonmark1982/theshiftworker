@@ -1,53 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Shift Worker - Brutalist Elegance</title>
-    <style>
-        @charset "UTF-8";
-        /* Brutalist Elegance - Hzmelisa66 inspired */
-        :root {
-            --bg: #000b1a;
-            --text: #e0f2ff;
-            --accent: #007acc;
-            --border: 4px solid #007acc;
-            --shadow: 8px 8px 0px #002d4d;
-        }
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .container {
-            background: #001529;
-            border: var(--border);
-            box-shadow: var(--shadow);
-            padding: 3rem;
-            max-width: 800px;
-            text-align: center;
-        }
-        h1 {
-            font-size: 4rem;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: -2px;
-        }
-        p {
-            font-size: 1.5rem;
-            opacity: 0.8;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Station – Shift Work, Solved.</title>
+  <style>
+    :root {
+      --bg: #000b1a;
+      --surface: #001529;
+      --text: #e0f2ff;
+      --muted: #7ab8d9;
+      --accent: #007acc;
+      --accent2: #00c2ff;
+      --border: 2px solid #007acc;
+      --radius: 4px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      line-height: 1.6;
+    }
+    /* NAV */
+    nav {
+      position: fixed; top: 0; width: 100%;
+      background: rgba(0,11,26,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #007acc33;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      z-index: 100;
+    }
+    .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent2); }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      margin-left: 2rem; font-size: 0.9rem; letter-spacing: 1px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent2); }
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      text-align: center; padding: 6rem 2rem 4rem;
+      background: radial-gradient(ellipse at 50% 40%, #002d4d55 0%, transparent 70%);
+    }
+    .hero-tag {
+      font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: 0.3rem 1rem; border-radius: 20px; margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 10vw, 7rem);
+      font-weight: 900; letter-spacing: -3px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #e0f2ff 0%, #00c2ff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--muted); max-width: 600px; margin-bottom: 3rem;
+    }
+    .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      padding: 0.85rem 2rem; border-radius: var(--radius);
+      font-size: 0.95rem; font-weight: 700; letter-spacing: 1px;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #007acc44; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-outline { background: transparent; color: var(--accent2); border: 2px solid var(--accent2); }
+    /* STATS */
+    .stats {
+      display: flex; justify-content: center; gap: 3rem;
+      padding: 3rem 2rem; flex-wrap: wrap;
+      border-top: 1px solid #007acc22; border-bottom: 1px solid #007acc22;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2.5rem; font-weight: 900; color: var(--accent2); }
+    .stat-label { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+    /* FEATURES */
+    .section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
+    .section-title {
+      font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 0.5rem;
+    }
+    .section-heading {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800; margin-bottom: 3rem;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid #007acc33;
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature-card p { color: var(--muted); font-size: 0.95rem; }
+    /* HOW IT WORKS */
+    .steps { display: flex; flex-direction: column; gap: 2rem; max-width: 700px; }
+    .step { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .step-num {
+      min-width: 48px; height: 48px;
+      border: 2px solid var(--accent); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.1rem; color: var(--accent2);
+    }
+    .step-content h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .step-content p { color: var(--muted); font-size: 0.95rem; }
+    /* CTA SECTION */
+    .cta-section {
+      background: var(--surface);
+      border-top: 1px solid #007acc33;
+      border-bottom: 1px solid #007acc33;
+      text-align: center; padding: 5rem 2rem;
+    }
+    .cta-section h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 1rem; }
+    .cta-section p { color: var(--muted); font-size: 1.1rem; margin-bottom: 2rem; }
+    /* FOOTER */
+    footer {
+      text-align: center; padding: 2rem;
+      color: var(--muted); font-size: 0.85rem;
+      border-top: 1px solid #007acc22;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .stats { gap: 1.5rem; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Brutalist Elegance</h1>
-        <p>Raw aesthetics. Professional logic. Machine elegance.</p>
+
+  <nav>
+    <div class="logo">Station</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How It Works</a>
+      <a href="#get-started">Get Started</a>
     </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">Built for the shift workforce</div>
+    <h1>Shift Work,<br>Solved.</h1>
+    <p class="hero-sub">Station is a high-precision utility for the modern laborer. Track hours, calculate exact pay, and reclaim control of your time — automatically.</p>
+    <div class="cta-group">
+      <a href="#get-started" class="btn btn-primary">Get Early Access</a>
+      <a href="#features" class="btn btn-outline">See Features</a>
+    </div>
+  </section>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Pay Accuracy</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">24/7</div>
+      <div class="stat-label">Shift Coverage</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Lost Overtime</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$0</div>
+      <div class="stat-label">To Start</div>
+    </div>
+  </div>
+
+  <section class="section" id="features">
+    <p class="section-title">Core Capabilities</p>
+    <h2 class="section-heading">Everything a shift worker needs.</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">&#9200;</div>
+        <h3>Automated Hour Tracking</h3>
+        <p>Cross-reference your scheduled vs. actual hours. Every shift logged, verified, and stored with precision.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128181;</div>
+        <h3>Dynamic Pay Forecasting</h3>
+        <p>Factor in differentials, overtime thresholds, and tax estimates. Know your exact take-home before payday.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128197;</div>
+        <h3>Schedule Intelligence</h3>
+        <p>Manage rotating shifts, swing shifts, and night schedules with a calendar built around how you actually work.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128736;</div>
+        <h3>Recovery Cycle Optimizer</h3>
+        <p>Track rest windows between shifts to stay compliant, healthy, and sharp — automatically flagging violations.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128200;</div>
+        <h3>Earnings Dashboard</h3>
+        <p>A clean, real-time view of weekly, monthly, and annual earnings. No spreadsheets. No guesswork.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">&#128274;</div>
+        <h3>Private by Default</h3>
+        <p>Your data stays yours. No employer access, no third-party sharing. Station works for you — only you.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how">
+    <p class="section-title">How It Works</p>
+    <h2 class="section-heading">Simple. Precise. Powerful.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Log Your Shifts</h3>
+          <p>Enter your schedule once. Station learns your rotation and auto-populates future shifts for you.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Verify Your Hours</h3>
+          <p>Compare actual vs. scheduled time. Station flags discrepancies and overtime triggers instantly.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>See Your True Earnings</h3>
+          <p>Get a full pay breakdown including base, OT, differentials, and estimated net — before your employer does the math.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Reclaim Your Time</h3>
+          <p>Use recovery insights and schedule data to plan rest, second jobs, or personal time with confidence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" id="get-started">
+    <h2>Reclaim your time.<br>Secure your pay.</h2>
+    <p>Station is coming soon. Join the early access list and be the first to use it.</p>
+    <a href="mailto:vernonmark1982@gmail.com?subject=Station Early Access" class="btn btn-primary">Request Early Access</a>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Station by <a href="https://github.com/vernonmark1982" target="_blank">vernonmark1982</a>. All rights reserved.</p>
+  </footer>
+
 </body>
 </html>
