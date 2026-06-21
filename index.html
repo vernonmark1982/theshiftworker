@@ -1,130 +1,1602 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Shift Worker – Shift Work, Solved.</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Shift Worker</title>
   <style>
     :root {
       --bg: #000b1a;
-      --surface: #001529;
+      --bg-soft: #001529;
+      --surface: rgba(0, 21, 41, 0.88);
+      --surface-strong: #021f3a;
       --text: #e0f2ff;
-      --muted: #7ab8d9;
-      --accent: #007acc;
-      --accent2: #00c2ff;
-      --border: 2px solid #007acc;
-      --radius: 4px;
+      --muted: #8ec8e8;
+      --quiet: #5d91ad;
+      --accent: #00c2ff;
+      --accent-strong: #39dcff;
+      --good: #51f0a2;
+      --warn: #ffd166;
+      --danger: #ff6b7a;
+      --border: rgba(0, 194, 255, 0.24);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+      --radius-sm: 12px;
+      --radius: 20px;
+      --radius-lg: 28px;
+      --tap: 48px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
-    /* NAV */
-    nav { position: fixed; top: 0; width: 100%; background: rgba(0,11,26,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid #007acc33; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; z-index: 100; }
-    .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent2); }
-    .nav-links a { color: var(--muted); text-decoration: none; margin-left: 2rem; font-size: 0.9rem; letter-spacing: 1px; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--accent2); }
-    /* HERO */
-    .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 6rem 2rem 4rem; background: radial-gradient(ellipse at 50% 40%, #002d4d55 0%, transparent 70%); }
-    .hero-tag { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 0.3rem 1rem; border-radius: 20px; margin-bottom: 2rem; }
-    .hero h1 { font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; letter-spacing: -3px; text-transform: uppercase; background: linear-gradient(135deg, #e0f2ff 0%, #00c2ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem; }
-    .hero-sub { font-size: clamp(1rem, 3vw, 1.4rem); color: var(--muted); max-width: 600px; margin-bottom: 3rem; }
-    .cta-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
-    .btn { padding: 0.85rem 2rem; border-radius: var(--radius); font-size: 0.95rem; font-weight: 700; letter-spacing: 1px; text-decoration: none; cursor: pointer; border: none; transition: transform 0.15s, box-shadow 0.15s; }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px #007acc44; }
-    .btn-primary { background: var(--accent); color: #fff; }
-    .btn-outline { background: transparent; color: var(--accent2); border: 2px solid var(--accent2); }
-    /* STATS */
-    .stats { display: flex; justify-content: center; gap: 3rem; padding: 3rem 2rem; flex-wrap: wrap; border-top: 1px solid #007acc22; border-bottom: 1px solid #007acc22; }
-    .stat { text-align: center; }
-    .stat-num { font-size: 2.5rem; font-weight: 900; color: var(--accent2); }
-    .stat-label { font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
-    /* FEATURES */
-    .section { padding: 5rem 2rem; max-width: 1100px; margin: 0 auto; }
-    .section-title { font-size: 0.75rem; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
-    .section-heading { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; margin-bottom: 3rem; }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
-    .feature-card { background: var(--surface); border: 1px solid #007acc33; border-radius: var(--radius); padding: 2rem; transition: border-color 0.2s, transform 0.2s; }
-    .feature-card:hover { border-color: var(--accent); transform: translateY(-4px); }
-    .feature-icon { font-size: 2rem; margin-bottom: 1rem; }
-    .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .feature-card p { color: var(--muted); font-size: 0.95rem; }
-    /* HOW IT WORKS */
-    .steps { display: flex; flex-direction: column; gap: 2rem; max-width: 700px; }
-    .step { display: flex; gap: 1.5rem; align-items: flex-start; }
-    .step-num { min-width: 48px; height: 48px; border: 2px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; color: var(--accent2); }
-    .step-content h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
-    .step-content p { color: var(--muted); font-size: 0.95rem; }
-    /* CTA SECTION */
-    .cta-section { background: var(--surface); border-top: 1px solid #007acc33; border-bottom: 1px solid #007acc33; text-align: center; padding: 5rem 2rem; }
-    .cta-section h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; margin-bottom: 1rem; }
-    .cta-section p { color: var(--muted); font-size: 1.1rem; margin-bottom: 2rem; }
-    /* FOOTER */
-    footer { text-align: center; padding: 2rem; color: var(--muted); font-size: 0.85rem; border-top: 1px solid #007acc22; }
-    footer a { color: var(--accent); text-decoration: none; }
-    @media (max-width: 600px) { .nav-links { display: none; } .stats { gap: 1.5rem; } }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      background:
+        radial-gradient(circle at top left, rgba(0, 194, 255, 0.2), transparent 34rem),
+        radial-gradient(circle at 92% 8%, rgba(81, 240, 162, 0.1), transparent 22rem),
+        linear-gradient(180deg, #000813 0%, var(--bg) 46%, #00050c 100%);
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      min-height: var(--tap);
+      color: var(--text);
+      background: rgba(0, 11, 26, 0.76);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.8rem 0.95rem;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 104px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(0, 194, 255, 0.12);
+    }
+
+    label {
+      display: grid;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .app {
+      width: min(1160px, 100%);
+      margin: 0 auto;
+      padding: 0 1rem 4rem;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin: 0 -1rem;
+      padding: 0.9rem 1rem;
+      background: rgba(0, 11, 26, 0.82);
+      border-bottom: 1px solid rgba(0, 194, 255, 0.12);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      flex: 0 0 auto;
+      color: #001529;
+      font-weight: 950;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--good));
+      box-shadow: 0 0 28px rgba(0, 194, 255, 0.34);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+    }
+
+    .brand span {
+      display: block;
+      color: var(--quiet);
+      font-size: 0.76rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .top-pills {
+      display: none;
+      align-items: center;
+      gap: 0.55rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      min-height: 36px;
+      padding: 0.42rem 0.7rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 800;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(0, 21, 41, 0.7);
+    }
+
+    .hero {
+      padding: 2rem 0 1.2rem;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.9rem;
+      color: var(--accent-strong);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--good);
+      box-shadow: 0 0 16px var(--good);
+    }
+
+    .hero h2 {
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(2rem, 8vw, 5rem);
+      line-height: 0.96;
+      letter-spacing: -0.07em;
+    }
+
+    .hero p {
+      max-width: 660px;
+      margin: 1rem 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .dashboard {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(2, 31, 58, 0.92), rgba(0, 21, 41, 0.8));
+      box-shadow: var(--shadow);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(0, 194, 255, 0.12), transparent 38%);
+    }
+
+    .card-inner {
+      position: relative;
+      padding: 1rem;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .card-title h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card-title p {
+      margin: 0.25rem 0 0;
+      color: var(--quiet);
+      font-size: 0.9rem;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.85rem;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 0.2rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: var(--tap);
+      padding: 0.85rem 1rem;
+      color: #001529;
+      font-weight: 950;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--accent), var(--good));
+      box-shadow: 0 10px 30px rgba(0, 194, 255, 0.18);
+    }
+
+    .btn:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn.secondary {
+      color: var(--text);
+      background: rgba(0, 11, 26, 0.72);
+      border: 1px solid var(--border);
+      box-shadow: none;
+    }
+
+    .btn.danger {
+      color: #fff;
+      background: rgba(255, 107, 122, 0.14);
+      border: 1px solid rgba(255, 107, 122, 0.42);
+      box-shadow: none;
+    }
+
+    .status {
+      min-height: 1.4rem;
+      margin: 0.75rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .status.good {
+      color: var(--good);
+    }
+
+    .status.bad {
+      color: var(--danger);
+    }
+
+    .preview-grid,
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+    }
+
+    .stat {
+      min-height: 92px;
+      padding: 0.9rem;
+      border: 1px solid rgba(0, 194, 255, 0.14);
+      border-radius: 16px;
+      background: rgba(0, 11, 26, 0.5);
+    }
+
+    .stat span {
+      display: block;
+      color: var(--quiet);
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stat strong {
+      display: block;
+      margin-top: 0.25rem;
+      font-size: 1.45rem;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .stat small {
+      display: block;
+      margin-top: 0.35rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+    }
+
+    .settings {
+      display: grid;
+      gap: 0.85rem;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(0, 194, 255, 0.14);
+    }
+
+    .week-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.55rem;
+      margin-bottom: 1rem;
+    }
+
+    .week-range {
+      flex: 1 1 100%;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .history-list {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .shift-item {
+      display: grid;
+      gap: 0.7rem;
+      padding: 0.85rem;
+      border: 1px solid rgba(0, 194, 255, 0.14);
+      border-radius: 18px;
+      background: rgba(0, 11, 26, 0.52);
+    }
+
+    .shift-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .shift-title {
+      min-width: 0;
+    }
+
+    .shift-title strong {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .shift-title span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .shift-pay {
+      flex: 0 0 auto;
+      color: var(--good);
+      font-weight: 950;
+      text-align: right;
+    }
+
+    .shift-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .meta-chip {
+      padding: 0.34rem 0.55rem;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      border: 1px solid rgba(0, 194, 255, 0.12);
+      border-radius: 999px;
+      background: rgba(0, 21, 41, 0.76);
+    }
+
+    .shift-note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .delete-shift {
+      justify-self: start;
+      min-height: 38px;
+      padding: 0.5rem 0.7rem;
+      color: var(--danger);
+      font-weight: 900;
+      border: 1px solid rgba(255, 107, 122, 0.25);
+      border-radius: 999px;
+      background: rgba(255, 107, 122, 0.08);
+    }
+
+    .empty {
+      padding: 1rem;
+      color: var(--quiet);
+      text-align: center;
+      border: 1px dashed rgba(0, 194, 255, 0.24);
+      border-radius: 18px;
+      background: rgba(0, 11, 26, 0.35);
+    }
+
+    .reset-panel {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .affirmation {
+      min-height: 116px;
+      display: grid;
+      align-content: center;
+      padding: 1.1rem;
+      color: var(--text);
+      font-size: 1.18rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      border: 1px solid rgba(81, 240, 162, 0.2);
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(81, 240, 162, 0.18), transparent 12rem),
+        rgba(0, 11, 26, 0.48);
+    }
+
+    .timer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem;
+      border-radius: 18px;
+      background: rgba(0, 11, 26, 0.48);
+      border: 1px solid rgba(0, 194, 255, 0.14);
+    }
+
+    .timer strong {
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+    }
+
+    .microcopy {
+      color: var(--quiet);
+      font-size: 0.85rem;
+    }
+
+    .footer-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1rem;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+    }
+
+    @media (min-width: 720px) {
+      .app {
+        padding-inline: 1.4rem;
+      }
+
+      .topbar {
+        margin-inline: -1.4rem;
+        padding-inline: 1.4rem;
+      }
+
+      .top-pills {
+        display: flex;
+      }
+
+      .hero {
+        padding-top: 3rem;
+      }
+
+      .dashboard {
+        grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+        align-items: start;
+      }
+
+      .span-2 {
+        grid-column: 1 / -1;
+      }
+
+      .card-inner {
+        padding: 1.25rem;
+      }
+
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .form-grid .full {
+        grid-column: 1 / -1;
+      }
+
+      .settings {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .settings .full {
+        grid-column: 1 / -1;
+      }
+
+      .week-range {
+        flex: 1 1 auto;
+      }
+
+      .summary-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .topbar {
+        border-radius: 0 0 24px 24px;
+      }
+
+      .hero p {
+        font-size: 1.1rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand" aria-label="The Shift Worker">
+        <div class="brand-mark">SW</div>
+        <div>
+          <h1>The Shift Worker</h1>
+          <span>Hours, pay, overtime, sanity.</span>
+        </div>
+      </div>
 
-<nav>
-  <div class="logo">The Shift Worker</div>
-  <div class="nav-links">
-    <a href="#features">Features</a>
-    <a href="#how">How It Works</a>
-    <a href="#get-started">Get Started</a>
+      <div class="top-pills" aria-label="Current week quick stats">
+        <div class="pill"><span>This week</span> <strong id="topWeekHours">0.00 h</strong></div>
+        <div class="pill"><span>Est.</span> <strong id="topWeekPay">$0.00</strong></div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">Built for real shifts</div>
+      <h2>Know your hours before payroll does.</h2>
+      <p>
+        Log a shift, subtract unpaid breaks, see weekly totals, overtime, and estimated pay.
+        No account. No dashboard bloat. Just the numbers that matter after a long shift.
+      </p>
+    </section>
+
+    <main class="dashboard">
+      <section class="card" aria-labelledby="logTitle">
+        <div class="card-inner">
+          <div class="card-title">
+            <div>
+              <h3 id="logTitle">Log a shift</h3>
+              <p>Overnight shifts are handled automatically when the end time is earlier than the start time.</p>
+            </div>
+          </div>
+
+          <form id="shiftForm" novalidate>
+            <div class="form-grid">
+              <label>
+                Shift date
+                <input id="shiftDate" type="date" required />
+              </label>
+
+              <label>
+                Shift name
+                <input id="shiftName" type="text" maxlength="48" placeholder="Night shift, ER, warehouse..." />
+              </label>
+
+              <label>
+                Start time
+                <input id="startTime" type="time" required />
+              </label>
+
+              <label>
+                End time
+                <input id="endTime" type="time" required />
+              </label>
+
+              <label>
+                Unpaid break minutes
+                <input id="breakMinutes" type="number" min="0" step="1" value="30" required />
+              </label>
+
+              <label class="full">
+                Notes
+                <textarea id="notes" maxlength="280" placeholder="Late clock-out, floated units, missed lunch, tough handoff..."></textarea>
+              </label>
+            </div>
+
+            <div class="button-row">
+              <button class="btn" type="submit">Save shift</button>
+              <button class="btn secondary" id="clearFormBtn" type="button">Clear form</button>
+            </div>
+
+            <p class="status" id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <aside class="card" aria-labelledby="previewTitle">
+        <div class="card-inner">
+          <div class="card-title">
+            <div>
+              <h3 id="previewTitle">Live estimate</h3>
+              <p>Preview updates before you save.</p>
+            </div>
+          </div>
+
+          <div class="preview-grid">
+            <div class="stat">
+              <span>Daily hours</span>
+              <strong id="previewDailyHours">0.00</strong>
+              <small>Net after break</small>
+            </div>
+
+            <div class="stat">
+              <span>Weekly total</span>
+              <strong id="previewWeeklyHours">0.00</strong>
+              <small>If saved</small>
+            </div>
+
+            <div class="stat">
+              <span>Overtime</span>
+              <strong id="previewOvertime">0.00</strong>
+              <small>This shift</small>
+            </div>
+
+            <div class="stat">
+              <span>Est. pay</span>
+              <strong id="previewPay">$0.00</strong>
+              <small>Before taxes</small>
+            </div>
+          </div>
+
+          <form id="settingsForm" class="settings" aria-labelledby="settingsTitle">
+            <div class="full">
+              <h3 id="settingsTitle" style="margin:0;font-size:1rem;">Pay settings</h3>
+              <p class="microcopy" style="margin:0.25rem 0 0;">Current settings apply to all displayed estimates.</p>
+            </div>
+
+            <label>
+              Hourly rate
+              <input id="hourlyRate" type="number" min="0" step="0.01" required />
+            </label>
+
+            <label>
+              Currency
+              <select id="currency">
+                <option value="USD">USD</option>
+                <option value="CAD">CAD</option>
+                <option value="GBP">GBP</option>
+                <option value="EUR">EUR</option>
+                <option value="AUD">AUD</option>
+                <option value="NZD">NZD</option>
+              </select>
+            </label>
+
+            <label>
+              Overtime after hours/week
+              <input id="overtimeThreshold" type="number" min="0" max="168" step="0.25" required />
+            </label>
+
+            <label>
+              Overtime multiplier
+              <input id="overtimeMultiplier" type="number" min="1" step="0.05" required />
+            </label>
+
+            <div class="full button-row">
+              <button class="btn secondary" type="submit">Save pay settings</button>
+            </div>
+
+            <p class="status full" id="settingsStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </aside>
+
+      <section class="card span-2" aria-labelledby="weekTitle">
+        <div class="card-inner">
+          <div class="card-title">
+            <div>
+              <h3 id="weekTitle">Week view</h3>
+              <p>Simple schedule/history by payroll week. Week starts Monday.</p>
+            </div>
+          </div>
+
+          <div class="week-tools">
+            <div class="week-range" id="weekRange">This week</div>
+            <button class="btn secondary" id="prevWeekBtn" type="button">Previous</button>
+            <button class="btn secondary" id="thisWeekBtn" type="button">This week</button>
+            <button class="btn secondary" id="nextWeekBtn" type="button">Next</button>
+          </div>
+
+          <div class="summary-grid">
+            <div class="stat">
+              <span>Total hours</span>
+              <strong id="weekTotalHours">0.00</strong>
+              <small>Net worked</small>
+            </div>
+
+            <div class="stat">
+              <span>Regular</span>
+              <strong id="weekRegularHours">0.00</strong>
+              <small>Before overtime</small>
+            </div>
+
+            <div class="stat">
+              <span>Overtime</span>
+              <strong id="weekOvertimeHours">0.00</strong>
+              <small>After threshold</small>
+            </div>
+
+            <div class="stat">
+              <span>Est. pay</span>
+              <strong id="weekEstimatedPay">$0.00</strong>
+              <small>Before taxes</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card span-2" aria-labelledby="historyTitle">
+        <div class="card-inner">
+          <div class="card-title">
+            <div>
+              <h3 id="historyTitle">Saved shifts</h3>
+              <p>Review the selected week, delete mistakes, or export your log.</p>
+            </div>
+          </div>
+
+          <div id="historyList" class="history-list" aria-live="polite"></div>
+
+          <div class="footer-actions">
+            <button class="btn secondary" id="exportCsvBtn" type="button">Export CSV</button>
+            <button class="btn danger" id="clearDataBtn" type="button">Delete all shifts</button>
+          </div>
+
+          <p class="status" id="historyStatus" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="card span-2" aria-labelledby="resetTitle">
+        <div class="card-inner reset-panel">
+          <div class="card-title">
+            <div>
+              <h3 id="resetTitle">Shift reset</h3>
+              <p>A lightweight reset for the moment between clocking out and carrying it home.</p>
+            </div>
+          </div>
+
+          <div class="affirmation" id="affirmationText">
+            You did real work today. Log it, leave it, recover.
+          </div>
+
+          <div class="timer">
+            <div>
+              <strong id="resetTimer">01:00</strong>
+              <div class="microcopy" id="resetCue">Drop your shoulders. Unclench your jaw. Breathe out longer than you breathe in.</div>
+            </div>
+            <button class="btn secondary" id="resetBtn" type="button">Start reset</button>
+          </div>
+
+          <div class="button-row">
+            <button class="btn secondary" id="affirmationBtn" type="button">New affirmation</button>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
-</nav>
 
-<section class="hero">
-  <div class="hero-tag">Built for the shift workforce</div>
-  <h1>Shift Work,<br>Solved.</h1>
-  <p class="hero-sub">The Shift Worker is a high-precision utility for the modern laborer. Track hours, calculate exact pay, and reclaim control of your time — automatically.</p>
-  <div class="cta-group">
-    <a href="#get-started" class="btn btn-primary">Get Early Access</a>
-    <a href="#features" class="btn btn-outline">See Features</a>
-  </div>
-</section>
+  <script>
+    (() => {
+      "use strict";
 
-<div class="stats">
-  <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Pay Accuracy</div></div>
-  <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Shift Coverage</div></div>
-  <div class="stat"><div class="stat-num">0</div><div class="stat-label">Lost Overtime</div></div>
-  <div class="stat"><div class="stat-num">$0</div><div class="stat-label">To Start</div></div>
-</div>
+      const STORAGE_KEY = "theShiftWorker.shifts.v1";
+      const SETTINGS_KEY = "theShiftWorker.settings.v1";
 
-<section class="section" id="features">
-  <div class="section-title">Core Capabilities</div>
-  <h2 class="section-heading">Everything a shift worker needs.</h2>
-  <div class="features-grid">
-    <div class="feature-card"><div class="feature-icon">&#9200;</div><h3>Automated Hour Tracking</h3><p>Cross-reference your scheduled vs. actual hours. Every shift logged, verified, and stored with precision.</p></div>
-    <div class="feature-card"><div class="feature-icon">&#128181;</div><h3>Dynamic Pay Forecasting</h3><p>Factor in differentials, overtime thresholds, and tax estimates. Know your exact take-home before payday.</p></div>
-    <div class="feature-card"><div class="feature-icon">&#128197;</div><h3>Schedule Intelligence</h3><p>Manage rotating shifts, swing shifts, and night schedules with a calendar built around how you actually work.</p></div>
-    <div class="feature-card"><div class="feature-icon">&#128295;</div><h3>Recovery Cycle Optimizer</h3><p>Track rest windows between shifts to stay compliant, healthy, and sharp — automatically flagging violations.</p></div>
-    <div class="feature-card"><div class="feature-icon">&#128200;</div><h3>Earnings Dashboard</h3><p>A clean, real-time view of weekly, monthly, and annual earnings. No spreadsheets. No guesswork.</p></div>
-    <div class="feature-card"><div class="feature-icon">&#128274;</div><h3>Private by Default</h3><p>Your data stays yours. No employer access, no third-party sharing. The Shift Worker works for you — only you.</p></div>
-  </div>
-</section>
+      const DEFAULT_SETTINGS = {
+        hourlyRate: 22,
+        overtimeThreshold: 40,
+        overtimeMultiplier: 1.5,
+        currency: "USD"
+      };
 
-<section class="section" id="how">
-  <div class="section-title">How It Works</div>
-  <h2 class="section-heading">Simple. Precise. Powerful.</h2>
-  <div class="steps">
-    <div class="step"><div class="step-num">1</div><div class="step-content"><h3>Log Your Shifts</h3><p>Enter your schedule once. The Shift Worker learns your rotation and auto-populates future shifts for you.</p></div></div>
-    <div class="step"><div class="step-num">2</div><div class="step-content"><h3>Verify Your Hours</h3><p>Compare actual vs. scheduled time. The Shift Worker flags discrepancies and overtime triggers instantly.</p></div></div>
-    <div class="step"><div class="step-num">3</div><div class="step-content"><h3>See Your True Earnings</h3><p>Get a full pay breakdown including base, OT, differentials, and estimated net — before your employer does the math.</p></div></div>
-    <div class="step"><div class="step-num">4</div><div class="step-content"><h3>Reclaim Your Time</h3><p>Use recovery insights and schedule data to plan rest, second jobs, or personal time with confidence.</p></div></div>
-  </div>
-</section>
+      const affirmations = [
+        "You did real work today. Log it, leave it, recover.",
+        "Your hours matter. Your rest matters too.",
+        "One hard shift does not own the rest of your day.",
+        "You are allowed to clock out mentally after clocking out physically.",
+        "Food, water, sleep, sunlight. Start with one.",
+        "You handled the shift in front of you. That counts.",
+        "Your body is not a machine. Recovery is part of the job.",
+        "Write the note, save the shift, let the day be done."
+      ];
 
-<section class="cta-section" id="get-started">
-  <h2>Reclaim your time.<br>Secure your pay.</h2>
-  <p>The Shift Worker is coming soon. Join the early access list and be the first to use it.</p>
-  <a href="mailto:vernonmark1982@gmail.com?subject=The Shift Worker Early Access" class="btn btn-primary">Request Early Access</a>
-</section>
+      const cues = [
+        "Drop your shoulders. Unclench your jaw. Breathe out longer than you breathe in.",
+        "Plant both feet. Name one thing you can see, hear, and feel.",
+        "Let your hands relax. Slow your next three breaths.",
+        "Take one full breath before checking another notification.",
+        "Release your tongue from the roof of your mouth. Exhale slowly."
+      ];
 
-<footer>
-  &copy; 2026 The Shift Worker by <a href="https://github.com/vernonmark1982">vernonmark1982</a>. All rights reserved.
-</footer>
+      const state = {
+        shifts: [],
+        settings: { ...DEFAULT_SETTINGS },
+        viewWeekStart: ""
+      };
 
+      const $ = (selector) => document.querySelector(selector);
+
+      const elements = {
+        shiftForm: $("#shiftForm"),
+        shiftDate: $("#shiftDate"),
+        shiftName: $("#shiftName"),
+        startTime: $("#startTime"),
+        endTime: $("#endTime"),
+        breakMinutes: $("#breakMinutes"),
+        notes: $("#notes"),
+        clearFormBtn: $("#clearFormBtn"),
+        formStatus: $("#formStatus"),
+
+        previewDailyHours: $("#previewDailyHours"),
+        previewWeeklyHours: $("#previewWeeklyHours"),
+        previewOvertime: $("#previewOvertime"),
+        previewPay: $("#previewPay"),
+
+        settingsForm: $("#settingsForm"),
+        hourlyRate: $("#hourlyRate"),
+        currency: $("#currency"),
+        overtimeThreshold: $("#overtimeThreshold"),
+        overtimeMultiplier: $("#overtimeMultiplier"),
+        settingsStatus: $("#settingsStatus"),
+
+        topWeekHours: $("#topWeekHours"),
+        topWeekPay: $("#topWeekPay"),
+
+        weekRange: $("#weekRange"),
+        prevWeekBtn: $("#prevWeekBtn"),
+        thisWeekBtn: $("#thisWeekBtn"),
+        nextWeekBtn: $("#nextWeekBtn"),
+        weekTotalHours: $("#weekTotalHours"),
+        weekRegularHours: $("#weekRegularHours"),
+        weekOvertimeHours: $("#weekOvertimeHours"),
+        weekEstimatedPay: $("#weekEstimatedPay"),
+
+        historyList: $("#historyList"),
+        historyStatus: $("#historyStatus"),
+        exportCsvBtn: $("#exportCsvBtn"),
+        clearDataBtn: $("#clearDataBtn"),
+
+        affirmationText: $("#affirmationText"),
+        affirmationBtn: $("#affirmationBtn"),
+        resetBtn: $("#resetBtn"),
+        resetTimer: $("#resetTimer"),
+        resetCue: $("#resetCue")
+      };
+
+      let resetInterval = null;
+      let resetSeconds = 60;
+
+      function readJson(key, fallback) {
+        try {
+          const raw = localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch {
+          return fallback;
+        }
+      }
+
+      function writeJson(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+          return true;
+        } catch {
+          return false;
+        }
+      }
+
+      function createId() {
+        if (window.crypto && typeof window.crypto.randomUUID === "function") {
+          return window.crypto.randomUUID();
+        }
+
+        return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+      }
+
+      function parseDateOnly(dateString) {
+        const [year, month, day] = dateString.split("-").map(Number);
+        return new Date(year, month - 1, day);
+      }
+
+      function toDateInputValue(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      function addDays(date, days) {
+        const next = new Date(date);
+        next.setDate(next.getDate() + days);
+        return next;
+      }
+
+      function getWeekStart(dateInput) {
+        const date = typeof dateInput === "string" ? parseDateOnly(dateInput) : new Date(dateInput);
+        date.setHours(0, 0, 0, 0);
+        const monday = 1;
+        const diff = (date.getDay() - monday + 7) % 7;
+        date.setDate(date.getDate() - diff);
+        return date;
+      }
+
+      function formatDate(dateString) {
+        return new Intl.DateTimeFormat(undefined, {
+          weekday: "short",
+          month: "short",
+          day: "numeric"
+        }).format(parseDateOnly(dateString));
+      }
+
+      function formatWeekRange(weekStartString) {
+        const start = parseDateOnly(weekStartString);
+        const end = addDays(start, 6);
+        const formatter = new Intl.DateTimeFormat(undefined, {
+          month: "short",
+          day: "numeric"
+        });
+
+        return `${formatter.format(start)} – ${formatter.format(end)}`;
+      }
+
+      function parseLocalDateTime(dateString, timeString) {
+        const [year, month, day] = dateString.split("-").map(Number);
+        const [hour, minute] = timeString.split(":").map(Number);
+        return new Date(year, month - 1, day, hour, minute, 0, 0);
+      }
+
+      function formatClock(timeString) {
+        if (!timeString) return "";
+        const [hour, minute] = timeString.split(":").map(Number);
+        const date = new Date(2000, 0, 1, hour, minute);
+        return new Intl.DateTimeFormat(undefined, {
+          hour: "numeric",
+          minute: "2-digit"
+        }).format(date);
+      }
+
+      function formatHours(hours) {
+        return Number(hours || 0).toFixed(2);
+      }
+
+      function formatMoney(amount) {
+        const currency = state.settings.currency || DEFAULT_SETTINGS.currency;
+
+        try {
+          return new Intl.NumberFormat(undefined, {
+            style: "currency",
+            currency
+          }).format(Number.isFinite(amount) ? amount : 0);
+        } catch {
+          return `$${Number(amount || 0).toFixed(2)}`;
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function setStatus(element, message, type = "") {
+        element.textContent = message;
+        element.className = `status ${type}`.trim();
+      }
+
+      function sanitizeShift(raw) {
+        if (!raw || typeof raw !== "object") return null;
+
+        const date = String(raw.date || "");
+        const startTime = String(raw.startTime || "");
+        const endTime = String(raw.endTime || "");
+        const netHours = Number(raw.netHours);
+        const breakMinutes = Number(raw.breakMinutes);
+
+        if (!date || !startTime || !endTime || !Number.isFinite(netHours)) return null;
+
+        return {
+          id: String(raw.id || createId()),
+          date,
+          title: String(raw.title || "Shift").slice(0, 48),
+          startTime,
+          endTime,
+          breakMinutes: Number.isFinite(breakMinutes) ? Math.max(0, breakMinutes) : 0,
+          notes: String(raw.notes || "").slice(0, 280),
+          startStamp: Number(raw.startStamp || parseLocalDateTime(date, startTime).getTime()),
+          endStamp: Number(raw.endStamp || parseLocalDateTime(date, endTime).getTime()),
+          durationMinutes: Number(raw.durationMinutes || 0),
+          netHours: Math.max(0, netHours),
+          createdAt: String(raw.createdAt || new Date().toISOString())
+        };
+      }
+
+      function loadState() {
+        const savedSettings = readJson(SETTINGS_KEY, DEFAULT_SETTINGS);
+        const savedShifts = readJson(STORAGE_KEY, []);
+
+        state.settings = {
+          ...DEFAULT_SETTINGS,
+          ...savedSettings,
+          hourlyRate: Number(savedSettings.hourlyRate ?? DEFAULT_SETTINGS.hourlyRate),
+          overtimeThreshold: Number(savedSettings.overtimeThreshold ?? DEFAULT_SETTINGS.overtimeThreshold),
+          overtimeMultiplier: Number(savedSettings.overtimeMultiplier ?? DEFAULT_SETTINGS.overtimeMultiplier),
+          currency: String(savedSettings.currency || DEFAULT_SETTINGS.currency)
+        };
+
+        state.shifts = Array.isArray(savedShifts)
+          ? savedShifts.map(sanitizeShift).filter(Boolean)
+          : [];
+
+        state.viewWeekStart = toDateInputValue(getWeekStart(new Date()));
+      }
+
+      function saveShifts() {
+        return writeJson(STORAGE_KEY, state.shifts);
+      }
+
+      function saveSettings() {
+        return writeJson(SETTINGS_KEY, state.settings);
+      }
+
+      function loadSettingsForm() {
+        elements.hourlyRate.value = state.settings.hourlyRate;
+        elements.currency.value = state.settings.currency;
+        elements.overtimeThreshold.value = state.settings.overtimeThreshold;
+        elements.overtimeMultiplier.value = state.settings.overtimeMultiplier;
+      }
+
+      function getWeekShifts(weekStartString, source = state.shifts) {
+        const start = weekStartString;
+        const end = toDateInputValue(addDays(parseDateOnly(weekStartString), 6));
+
+        return source
+          .filter((shift) => shift.date >= start && shift.date <= end)
+          .sort((a, b) => a.startStamp - b.startStamp);
+      }
+
+      function enrichWeekShifts(shifts) {
+        const hourlyRate = Math.max(0, Number(state.settings.hourlyRate) || 0);
+        const threshold = Math.max(0, Number(state.settings.overtimeThreshold) || 0);
+        const multiplier = Math.max(1, Number(state.settings.overtimeMultiplier) || 1);
+
+        let cumulative = 0;
+
+        return [...shifts]
+          .sort((a, b) => a.startStamp - b.startStamp)
+          .map((shift) => {
+            const remainingRegular = Math.max(0, threshold - cumulative);
+            const regularHours = Math.min(shift.netHours, remainingRegular);
+            const overtimeHours = Math.max(0, shift.netHours - regularHours);
+            const estimatedPay = (regularHours * hourlyRate) + (overtimeHours * hourlyRate * multiplier);
+
+            cumulative += shift.netHours;
+
+            return {
+              ...shift,
+              regularHours,
+              overtimeHours,
+              estimatedPay
+            };
+          });
+      }
+
+      function summarizeWeek(weekStartString, source = state.shifts) {
+        const enriched = enrichWeekShifts(getWeekShifts(weekStartString, source));
+
+        return enriched.reduce(
+          (summary, shift) => {
+            summary.totalHours += shift.netHours;
+            summary.regularHours += shift.regularHours;
+            summary.overtimeHours += shift.overtimeHours;
+            summary.estimatedPay += shift.estimatedPay;
+            return summary;
+          },
+          {
+            shifts: enriched,
+            totalHours: 0,
+            regularHours: 0,
+            overtimeHours: 0,
+            estimatedPay: 0
+          }
+        );
+      }
+
+      function readDraft() {
+        const date = elements.shiftDate.value;
+        const startTime = elements.startTime.value;
+        const endTime = elements.endTime.value;
+        const breakMinutes = Number(elements.breakMinutes.value || 0);
+        const title = elements.shiftName.value.trim() || "Shift";
+        const notes = elements.notes.value.trim();
+
+        if (!date || !startTime || !endTime) {
+          return {
+            valid: false,
+            message: "Enter a date, start time, and end time to see the estimate."
+          };
+        }
+
+        if (!Number.isFinite(breakMinutes) || breakMinutes < 0) {
+          return {
+            valid: false,
+            message: "Break minutes must be zero or more."
+          };
+        }
+
+        const start = parseLocalDateTime(date, startTime);
+        let end = parseLocalDateTime(date, endTime);
+
+        if (end <= start) {
+          end = addDays(end, 1);
+        }
+
+        const durationMinutes = Math.round((end.getTime() - start.getTime()) / 60000);
+
+        if (durationMinutes <= 0 || durationMinutes > 24 * 60) {
+          return {
+            valid: false,
+            message: "Shift length must be greater than 0 and no more than 24 hours."
+          };
+        }
+
+        if (breakMinutes >= durationMinutes) {
+          return {
+            valid: false,
+            message: "Unpaid break must be shorter than the full shift."
+          };
+        }
+
+        const netHours = Math.round(((durationMinutes - breakMinutes) / 60) * 100) / 100;
+
+        return {
+          valid: true,
+          id: "__draft__",
+          date,
+          title,
+          startTime,
+          endTime,
+          breakMinutes,
+          notes,
+          startStamp: start.getTime(),
+          endStamp: end.getTime(),
+          durationMinutes,
+          netHours,
+          createdAt: new Date().toISOString(),
+          message: end.getDate() !== start.getDate()
+            ? "Overnight shift detected. End time lands on the next day."
+            : "Estimate ready."
+        };
+      }
+
+      function renderDraftPreview() {
+        const draft = readDraft();
+
+        if (!draft.valid) {
+          elements.previewDailyHours.textContent = "0.00";
+          elements.previewWeeklyHours.textContent = formatHours(summarizeWeek(state.viewWeekStart).totalHours);
+          elements.previewOvertime.textContent = "0.00";
+          elements.previewPay.textContent = formatMoney(0);
+          setStatus(elements.formStatus, draft.message);
+          return;
+        }
+
+        const draftWeekStart = toDateInputValue(getWeekStart(draft.date));
+        const combined = [...state.shifts, draft];
+        const weekSummary = summarizeWeek(draftWeekStart, combined);
+        const enrichedDraft = weekSummary.shifts.find((shift) => shift.id === "__draft__");
+
+        elements.previewDailyHours.textContent = formatHours(draft.netHours);
+        elements.previewWeeklyHours.textContent = formatHours(weekSummary.totalHours);
+        elements.previewOvertime.textContent = formatHours(enrichedDraft ? enrichedDraft.overtimeHours : 0);
+        elements.previewPay.textContent = formatMoney(enrichedDraft ? enrichedDraft.estimatedPay : 0);
+
+        setStatus(elements.formStatus, draft.message, "good");
+      }
+
+      function renderTopStats() {
+        const currentWeekStart = toDateInputValue(getWeekStart(new Date()));
+        const summary = summarizeWeek(currentWeekStart);
+
+        elements.topWeekHours.textContent = `${formatHours(summary.totalHours)} h`;
+        elements.topWeekPay.textContent = formatMoney(summary.estimatedPay);
+      }
+
+      function renderWeek() {
+        const summary = summarizeWeek(state.viewWeekStart);
+
+        elements.weekRange.textContent = formatWeekRange(state.viewWeekStart);
+        elements.weekTotalHours.textContent = formatHours(summary.totalHours);
+        elements.weekRegularHours.textContent = formatHours(summary.regularHours);
+        elements.weekOvertimeHours.textContent = formatHours(summary.overtimeHours);
+        elements.weekEstimatedPay.textContent = formatMoney(summary.estimatedPay);
+      }
+
+      function renderHistory() {
+        const summary = summarizeWeek(state.viewWeekStart);
+
+        if (summary.shifts.length === 0) {
+          elements.historyList.innerHTML = `
+            <div class="empty">
+              No shifts saved for ${escapeHtml(formatWeekRange(state.viewWeekStart))}. Log one above.
+            </div>
+          `;
+          return;
+        }
+
+        elements.historyList.innerHTML = summary.shifts.map((shift) => {
+          const note = shift.notes
+            ? `<p class="shift-note">${escapeHtml(shift.notes)}</p>`
+            : "";
+
+          const crossesMidnight = shift.endStamp > shift.startStamp
+            && new Date(shift.endStamp).getDate() !== new Date(shift.startStamp).getDate();
+
+          return `
+            <article class="shift-item">
+              <div class="shift-head">
+                <div class="shift-title">
+                  <strong>${escapeHtml(formatDate(shift.date))} · ${escapeHtml(shift.title)}</strong>
+                  <span>
+                    ${escapeHtml(formatClock(shift.startTime))} → ${escapeHtml(formatClock(shift.endTime))}
+                    ${crossesMidnight ? "+1 day" : ""}
+                  </span>
+                </div>
+                <div class="shift-pay">${escapeHtml(formatMoney(shift.estimatedPay))}</div>
+              </div>
+
+              <div class="shift-meta">
+                <span class="meta-chip">Net ${escapeHtml(formatHours(shift.netHours))} h</span>
+                <span class="meta-chip">Break ${escapeHtml(String(shift.breakMinutes))} min</span>
+                <span class="meta-chip">Regular ${escapeHtml(formatHours(shift.regularHours))} h</span>
+                <span class="meta-chip">OT ${escapeHtml(formatHours(shift.overtimeHours))} h</span>
+              </div>
+
+              ${note}
+
+              <button class="delete-shift" type="button" data-delete-id="${escapeHtml(shift.id)}">
+                Delete shift
+              </button>
+            </article>
+          `;
+        }).join("");
+      }
+
+      function renderAll() {
+        renderTopStats();
+        renderWeek();
+        renderHistory();
+        renderDraftPreview();
+      }
+
+      function resetShiftForm() {
+        elements.shiftDate.value = toDateInputValue(new Date());
+        elements.shiftName.value = "";
+        elements.startTime.value = "";
+        elements.endTime.value = "";
+        elements.breakMinutes.value = "30";
+        elements.notes.value = "";
+        setStatus(elements.formStatus, "Ready for the next shift.");
+        renderDraftPreview();
+      }
+
+      function handleShiftSubmit(event) {
+        event.preventDefault();
+
+        const draft = readDraft();
+
+        if (!draft.valid) {
+          setStatus(elements.formStatus, draft.message, "bad");
+          return;
+        }
+
+        const shift = {
+          id: createId(),
+          date: draft.date,
+          title: draft.title,
+          startTime: draft.startTime,
+          endTime: draft.endTime,
+          breakMinutes: draft.breakMinutes,
+          notes: draft.notes,
+          startStamp: draft.startStamp,
+          endStamp: draft.endStamp,
+          durationMinutes: draft.durationMinutes,
+          netHours: draft.netHours,
+          createdAt: draft.createdAt
+        };
+
+        state.shifts.push(shift);
+
+        if (!saveShifts()) {
+          setStatus(elements.formStatus, "Could not save. Your browser storage may be full or disabled.", "bad");
+          return;
+        }
+
+        state.viewWeekStart = toDateInputValue(getWeekStart(shift.date));
+        setStatus(elements.formStatus, "Shift saved.", "good");
+
+        elements.shiftName.value = "";
+        elements.startTime.value = "";
+        elements.endTime.value = "";
+        elements.notes.value = "";
+
+        renderAll();
+      }
+
+      function handleSettingsSubmit(event) {
+        event.preventDefault();
+
+        const hourlyRate = Number(elements.hourlyRate.value);
+        const overtimeThreshold = Number(elements.overtimeThreshold.value);
+        const overtimeMultiplier = Number(elements.overtimeMultiplier.value);
+        const currency = elements.currency.value;
+
+        if (!Number.isFinite(hourlyRate) || hourlyRate < 0) {
+          setStatus(elements.settingsStatus, "Hourly rate must be zero or more.", "bad");
+          return;
+        }
+
+        if (!Number.isFinite(overtimeThreshold) || overtimeThreshold < 0 || overtimeThreshold > 168) {
+          setStatus(elements.settingsStatus, "Overtime threshold must be between 0 and 168.", "bad");
+          return;
+        }
+
+        if (!Number.isFinite(overtimeMultiplier) || overtimeMultiplier < 1) {
+          setStatus(elements.settingsStatus, "Overtime multiplier must be 1 or higher.", "bad");
+          return;
+        }
+
+        state.settings = {
+          hourlyRate,
+          overtimeThreshold,
+          overtimeMultiplier,
+          currency
+        };
+
+        if (!saveSettings()) {
+          setStatus(elements.settingsStatus, "Could not save settings. Browser storage may be disabled.", "bad");
+          return;
+        }
+
+        setStatus(elements.settingsStatus, "Pay settings saved.", "good");
+        renderAll();
+      }
+
+      function deleteShift(id) {
+        const before = state.shifts.length;
+        state.shifts = state.shifts.filter((shift) => shift.id !== id);
+
+        if (state.shifts.length === before) return;
+
+        saveShifts();
+        setStatus(elements.historyStatus, "Shift deleted.", "good");
+        renderAll();
+      }
+
+      function exportCsv() {
+        if (state.shifts.length === 0) {
+          setStatus(elements.historyStatus, "No shifts to export yet.", "bad");
+          return;
+        }
+
+        const headers = [
+          "Date",
+          "Shift",
+          "Start",
+          "End",
+          "Break Minutes",
+          "Net Hours",
+          "Notes"
+        ];
+
+        const rows = state.shifts
+          .slice()
+          .sort((a, b) => a.startStamp - b.startStamp)
+          .map((shift) => [
+            shift.date,
+            shift.title,
+            shift.startTime,
+            shift.endTime,
+            shift.breakMinutes,
+            formatHours(shift.netHours),
+            shift.notes
+          ]);
+
+        const csv = [headers, ...rows]
+          .map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(","))
+          .join("\n");
+
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = `the-shift-worker-${toDateInputValue(new Date())}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        URL.revokeObjectURL(url);
+        setStatus(elements.historyStatus, "CSV exported.", "good");
+      }
+
+      function clearAllShifts() {
+        const confirmed = window.confirm("Delete all saved shifts? This cannot be undone.");
+
+        if (!confirmed) return;
+
+        state.shifts = [];
+        saveShifts();
+        setStatus(elements.historyStatus, "All shifts deleted.", "good");
+        renderAll();
+      }
+
+      function pickRandom(items, currentText = "") {
+        const available = items.filter((item) => item !== currentText);
+        const pool = available.length ? available : items;
+        return pool[Math.floor(Math.random() * pool.length)];
+      }
+
+      function updateAffirmation() {
+        elements.affirmationText.textContent = pickRandom(affirmations, elements.affirmationText.textContent);
+        elements.resetCue.textContent = pickRandom(cues, elements.resetCue.textContent);
+      }
+
+      function formatTimer(seconds) {
+        const minutes = Math.floor(seconds / 60);
+        const remaining = seconds % 60;
+        return `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
+      }
+
+      function startResetTimer() {
+        if (resetInterval) return;
+
+        resetSeconds = 60;
+        elements.resetTimer.textContent = formatTimer(resetSeconds);
+        elements.resetBtn.disabled = true;
+        elements.resetBtn.textContent = "Resetting...";
+        elements.resetCue.textContent = pickRandom(cues);
+
+        resetInterval = window.setInterval(() => {
+          resetSeconds -= 1;
+          elements.resetTimer.textContent = formatTimer(resetSeconds);
+
+          if (resetSeconds <= 0) {
+            window.clearInterval(resetInterval);
+            resetInterval = null;
+            elements.resetBtn.disabled = false;
+            elements.resetBtn.textContent = "Start reset";
+            elements.resetCue.textContent = "Done. Take the next minute slower than the last shift.";
+            elements.affirmationText.textContent = "You made it through the next minute. That is enough for right now.";
+          }
+        }, 1000);
+      }
+
+      function bindEvents() {
+        elements.shiftForm.addEventListener("submit", handleShiftSubmit);
+        elements.shiftForm.addEventListener("input", renderDraftPreview);
+        elements.clearFormBtn.addEventListener("click", resetShiftForm);
+
+        elements.settingsForm.addEventListener("submit", handleSettingsSubmit);
+
+        elements.prevWeekBtn.addEventListener("click", () => {
+          state.viewWeekStart = toDateInputValue(addDays(parseDateOnly(state.viewWeekStart), -7));
+          renderAll();
+        });
+
+        elements.thisWeekBtn.addEventListener("click", () => {
+          state.viewWeekStart = toDateInputValue(getWeekStart(new Date()));
+          renderAll();
+        });
+
+        elements.nextWeekBtn.addEventListener("click", () => {
+          state.viewWeekStart = toDateInputValue(addDays(parseDateOnly(state.viewWeekStart), 7));
+          renderAll();
+        });
+
+        elements.historyList.addEventListener("click", (event) => {
+          const button = event.target.closest("[data-delete-id]");
+          if (!button) return;
+          deleteShift(button.dataset.deleteId);
+        });
+
+        elements.exportCsvBtn.addEventListener("click", exportCsv);
+        elements.clearDataBtn.addEventListener("click", clearAllShifts);
+        elements.affirmationBtn.addEventListener("click", updateAffirmation);
+        elements.resetBtn.addEventListener("click", startResetTimer);
+      }
+
+      function init() {
+        loadState();
+        loadSettingsForm();
+        elements.shiftDate.value = toDateInputValue(new Date());
+        bindEvents();
+        renderAll();
+      }
+
+      init();
+    })();
+  </script>
 </body>
 </html>
